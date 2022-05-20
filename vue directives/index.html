@@ -15,19 +15,21 @@
 
 <body>
  <div class="container" id="app">
-  <section>
-   <h1>AGE CALCULATOR</h1>
-   <div class="age-cal" id="age">
-    <span class="input-group-text">dob</span>
+  <section class="row">
+   <h1 class="center">AGE CALCULATOR</h1>
+   <div class="age-cal col-xl-8 col-md-12 center" id="age">
     <div class="input-group">
+    <span class="input-group-text">day</span>
      <select class="form-control" aria-label="day" v-model="day" v-model="day">
       <option selected>day</option>
       <option v-for="n in 31" :value="n" >{{n}}</option>
      </select>
-     <select class="form-control" aria-label="day" v-model="month">
+     <span class="input-group-text">month</span>
+     <select class="form-control" aria-label="month" v-model="month">
       <option selected>month</option>
       <option v-for="n in mon" :value="n" >{{n}}</option>
      </select>
+     <span class="input-group-text">year</span>
      <select class="form-control" aria-label="year" v-model="year">
       <option selected>year</option>
       <option v-for="n in range(curYear(),1820)" :value="n" >{{n}}</option>
@@ -41,20 +43,20 @@
   </section>
 
   <section>
-   <h1>load Image</h1>
+   <h1>LOAD IMAGE</h1>
    <div class="input-group">
     <input class="form-control" type="text" v-model="getImgNew" @keyup.enter="addThat()">
     <button class="btn btn-primary" @click="addThat()">Add</button>
    </div>
    <br>
-   <div v-for="(item,key) in img" style="display: inline-block;" class="pic">
+   <div v-for="(item,key) in img" style="display: inline-block;" class="pic col-sm-12 col-md-3">
     <img v-show="item.hide" @click='fullview=item.url' height="200" class="img-responsive image" :src="item.url" alt="Make sure the image is open source">
     <button class="hide" @click="item.hide=false">
      HIDE
     </button>
    </div>
    <div class="fullview">
-    <img v-if="fullview.length>0" height="500" class="img-responsive center" id="fullview" alt="">
+    <img v-if="fullview.length>0" height="500" class="img-responsive center" :src="fullview"  alt="">
    </div>
   </section>
  </div>
@@ -120,10 +122,15 @@
   }
   .image{
    filter:brightness(0.7);
+   position: absolute;
+   top:50%;
+   left: 50%;
+   transform:translate(-50%,-50%);
+   transition:1.5s;
   }
   .image:hover {
    filter:brightness(1);
-   transform: scale(1.2);
+   transform:scale(1.2) translate(-50%,-50%);
   }
   .hide { 
    position: absolute;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <!-- VUE JS -->
+ <script src="https://unpkg.com/vue@3"></script>
+
+ <!-- BOOTSTRAP -->
+ <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+ <title>report 0 for pracitize</title>
+</head>
+
+<body>
+ <div class="container" id="app">
+  <section>
+   <h1>AGE CALCULATOR</h1>
+   <div class="age-cal" id="age">
+    <span class="input-group-text">dob</span>
+    <div class="input-group">
+     <select class="form-control" aria-label="day" v-model="day" v-model="day">
+      <option selected>day</option>
+      <option v-for="n in 31" :value="n" >{{n}}</option>
+     </select>
+     <select class="form-control" aria-label="day" v-model="month">
+      <option selected>month</option>
+      <option v-for="n in mon" :value="n" >{{n}}</option>
+     </select>
+     <select class="form-control" aria-label="year" v-model="year">
+      <option selected>year</option>
+      <option v-for="n in range(curYear(),1820)" :value="n" >{{n}}</option>
+     </select>
+    </div>
+    <button class="btn btn-success text-uppercase center" @click="ageof()">find</button>
+    <p>
+     <span>Your age:{{age}} </span>
+    </p>
+   </div>
+  </section>
+
+  <section>
+   <h1>load Image</h1>
+   <div class="input-group">
+    <input class="form-control" type="text" v-model="getImgNew" @keyup.enter="addThat()">
+    <button class="btn btn-primary" @click="addThat()">Add</button>
+   </div>
+   <br>
+   <div v-for="(item,key) in img" style="display: inline-block;" class="pic">
+    <img v-show="item.hide" @click='fullview=item.url' height="200" class="img-responsive image" :src="item.url" alt="Make sure the image is open source">
+    <button class="hide" @click="item.hide=false">
+     HIDE
+    </button>
+   </div>
+   <div class="fullview">
+    <img v-if="fullview.length>0" height="500" class="img-responsive center" id="fullview" alt="">
+   </div>
+  </section>
+ </div>
+ <SCRIPT>
+  const { createApp } = Vue;
+  createApp({ 
+   data(){
+    return{ 
+     day:"",
+     month:"",
+     year:"",
+     age:"",
+     mon:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+
+     img:[
+      {id:0,hide:true,url:"https://cdn.pixabay.com/photo/2019/03/05/05/12/model-4035591_960_720.jpg"},
+      {id:0,hide:true,url:"https://cdn.pixabay.com/photo/2022/05/08/18/13/cat-7182671_960_720.jpg"},
+      {id:0,hide:true,url:"https://cdn.pixabay.com/photo/2022/04/14/04/45/vintage-aesthetic-7131604_960_720.jpg"}
+    ],
+    fullview:"",
+    getImgNew:""
+     }
+    },
+   methods:{ 
+    ageof(){
+     let [d,m,y]=[this.day,this.month,this.year]
+     m=this.mon.indexOf(m)+1
+     console.log(d,m,y)
+     let date = new Date()
+     let temp = date.getMonth()-m;
+     this.age = date.getFullYear()-y-1+(temp*0.1)
+    },
+    addThat(){
+     this.img.push({id:this.length+1, hide:true, url:this.getImgNew})
+    },
+    curYear(){ 
+     let date = new Date()
+     return date.getFullYear();
+    },
+    range(start, end) {
+    var ans = [];
+    for (let i = start; i >= end; i--) {
+        ans.push(i);
+    }
+    return ans;
+    }
+   }
+  }).mount("#app");
+ </SCRIPT>
+ <style>
+  .center{
+   margin:16px;
+   margin-left: 50%;
+   transform: translate(-50%);
+  }
+  .pic {
+   position: relative;
+   height: 200px;
+   overflow: hidden;
+  }
+  .pic:hover{
+   z-index: 10;
+  }
+  .image{
+   filter:brightness(0.7);
+  }
+  .image:hover {
+   filter:brightness(1);
+   transform: scale(1.2);
+  }
+  .hide { 
+   position: absolute;
+   top: 105%;
+   left:50%;
+   transform: translate(-50%,-50%);
+   color: white;
+   background: black;
+   opacity: 0.5;
+   width: 70px;
+   transition:1s;
+   text-align: center;
+  }
+  .hide:hover{
+   opacity:1;
+  }
+  div.pic:hover .hide{
+   top:80%;
+  }
+ </style>
+</body>
+</html>
